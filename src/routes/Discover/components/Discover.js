@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { getCategories } from "../api";
+import { categoriesService, newReleaseService } from "../api";
 import DiscoverBlock from "./DiscoverBlock/components/DiscoverBlock";
 import "../styles/_discover.scss";
 
@@ -15,7 +15,9 @@ export default class Discover extends Component {
   }
 
   componentDidMount = async () => {
-    await this.getData("categories", getCategories);
+    // await this.getData("newReleases", newReleaseService);
+    await this.getData("categories", categoriesService);
+    await this.getData("newReleases", newReleaseService);
   };
 
   getData = (key, fetchFunction) => {
