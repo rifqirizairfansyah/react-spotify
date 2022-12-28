@@ -1,6 +1,7 @@
-import React, { Component } from 'react';
-import DiscoverBlock from './DiscoverBlock/components/DiscoverBlock';
-import '../styles/_discover.scss';
+import React, { Component } from "react";
+import { getCategories } from "../api";
+import DiscoverBlock from "./DiscoverBlock/components/DiscoverBlock";
+import "../styles/_discover.scss";
 
 export default class Discover extends Component {
   constructor() {
@@ -9,18 +10,41 @@ export default class Discover extends Component {
     this.state = {
       newReleases: [],
       playlists: [],
-      categories: []
+      categories: [],
     };
   }
+
+  componentDidMount = async () => {
+    await this.getData("categories", getCategories);
+  };
+
+  getData = (key, fetchFunction) => {
+    return new Promise(async (resolve) => {
+      this.setState({ [key]: await fetchFunction() }, resolve);
+    });
+  };
 
   render() {
     const { newReleases, playlists, categories } = this.state;
 
     return (
       <div className="discover">
-        <DiscoverBlock text="RELEASED THIS WEEK" id="released" data={newReleases} />
-        <DiscoverBlock text="FEATURED PLAYLISTS" id="featured" data={playlists} />
-        <DiscoverBlock text="BROWSE" id="browse" data={categories} imagesKey="icons" />
+        <DiscoverBlock
+          text="RELEASED THIS WEEK"
+          id="released"
+          data={newReleases}
+        />
+        <DiscoverBlock
+          text="FEATURED PLAYLISTS"
+          id="featured"
+          data={playlists}
+        />
+        <DiscoverBlock
+          text="BROWSE"
+          id="browse"
+          data={categories}
+          imagesKey="icons"
+        />
       </div>
     );
   }
